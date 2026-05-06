@@ -2,7 +2,7 @@ import { cp, mkdir, readdir, readFile, rm, stat, writeFile } from "node:fs/promi
 import { resolve } from "node:path";
 
 const ROOT = process.cwd();
-export const REPORTS_DIR = resolve(ROOT, "reports");
+export const REPORTS_DIR = resolve(ROOT, "src/reports");
 export const TEMPLATE_DIR = resolve(REPORTS_DIR, "template");
 export const META_PATH = resolve(REPORTS_DIR, "meta.json");
 export const REGISTRY_PATH = resolve(REPORTS_DIR, "registry.ts");

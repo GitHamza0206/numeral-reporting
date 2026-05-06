@@ -1,11 +1,10 @@
 import {
-  AlertsPage,
   AnalysePage,
   CoverPage,
   DEFAULT_REPORT_LAYOUT,
   MonthlyPage,
   Report,
-  ScoresPage,
+  ScoresAndAlertsPage,
   SigPage,
   SommairePage,
   StructurePage,
@@ -14,13 +13,12 @@ import { PnlSection } from "@/components/report-kit/pnl-section";
 import type { ReportVersionComponentProps } from "@/schemas/report";
 import { model } from "./model";
 
-export default function TemplateReport({ activeVersion, versions }: ReportVersionComponentProps) {
+export default function V0Report({ activeVersion, versions }: ReportVersionComponentProps) {
   return (
     <Report activeVersion={activeVersion} model={model} versions={versions}>
       <CoverPage model={model} />
       <SommairePage layout={DEFAULT_REPORT_LAYOUT} />
-      <ScoresPage model={model} />
-      <AlertsPage model={model} />
+      <ScoresAndAlertsPage model={model} />
       <PnlSection meta={model.meta} narrative={model.analyse.narratives?.pnl} pnl={model.pnl} />
       {model.sig ? <SigPage model={model} /> : null}
       {model.monthly ? <MonthlyPage model={model} /> : null}

@@ -1,0 +1,11 @@
+{
+  "legal_name": "Bande de Cheffe SAS",
+  "siret": null,
+  "activity": "À renseigner depuis le Kbis / questionnaire (ex. restauration, traiteur, autre).",
+  "fiscal_year_end": null,
+  "exercise_labels": {
+    "n": "Exercice N (ex. 2025)",
+    "n1": "Exercice N-1 (ex. 2024)"
+  },
+  "notes": "Copier en client_context.json et compléter uniquement à partir d’informations contractuelles ou des pièces. Ne pas inventer de montants — ce fichier sert de référence textuelle pour les agents qui remplissent model.ts."
+}

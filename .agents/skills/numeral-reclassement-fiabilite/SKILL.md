@@ -1,98 +1,88 @@
 ---
 name: numeral-reclassement-fiabilite
 description: >-
-  Reclasse prudemment les comptes d attente et met a jour le score de
-  fiabilite dans un rapport Numeral. Utilise ce skill quand on te
-  demande de "corriger les erreurs bloquantes", "reclasser les 471",
-  "arranger la compta", "mettre a jour le score de fiabilite" ou de
-  nettoyer un provisoire a partir de la balance et du grand livre.
+  Référence pour reclassements prudents des comptes d'attente (471 banque,
+  etc.), healing des données dans le modèle Numeral (pas seulement du texte),
+  et cohérence du score de fiabilité. Déclencheurs : « corriger erreurs
+  bloquantes », « reclasser les 471 », « arranger la compta », « mettre à jour
+  le score », « provisoire balance + grand-livre ». Pair avec
+  numeral-classify-attente-pnl pour le détail 471 → P&L.
 ---
 
-# Numeral Reclassement Fiabilite
+# Numeral — reclassement & fiabilité
 
-Corrige seulement les reclassements defendables a partir des pieces.
-Le but n est pas de faire disparaitre un suspens, mais de reduire les
-comptes d attente sans inventer de contrepartie.
+## Principe
 
-## Workflow
+- Corriger **uniquement** ce qui est défendable à partir des pièces (balance, grand-livre, contexte dossier).
+- **Soigner les données** dans le rapport : imputation 6/7 pour les lignes haute confiance, retrait du tableau bloquant, **P&L et totaux recalculés**. Pas de bloc narratif en bas de page à la place du healing.
+- Dans ce template Bande de Cheffe : le **moteur de règles** vit en **Python** (`scripts/reclasse_471_healing.py`). On ne duplique pas un moteur de reclassement en TypeScript sous `src/reports/`. Le livrable TS est `src/reports/v<V>/model.ts` (validé par `src/schemas/report.ts`).
+- **`scripts/` (racine projet)** : **carnet de brouillon pour l’agent** — scripts d’exploration, extractions ad hoc, recalculs et pipelines Python avant **reprise manuelle** des chiffres et règles dans `model.ts`. Rien n’y est garanti « API produit » ; la **vérité affichée** reste le modèle de rapport + les pièces sous `data/`.
 
-1. **Bind la version active.** Lis `reports/meta.json`, cible
-   `reports/v<V>/` et n ecris jamais dans une autre version.
-2. **Lis le rapport courant.** Ouvre au minimum `reports/v<V>/model.ts`
-   puis repere :
-   - `alerts.blocking`
-   - `pnl.score`
-   - `analyse.scoring`
-   - `analyse.penalties`
-   - `analyse.synthese`
-3. **Lis les pieces comptables.** Pars de la balance et surtout du grand
-   livre de l exercice cible. Cherche les comptes d attente et les
-   contreparties explicites, en pratique :
-   - `4716`, `4717`, et autres comptes de passage si presents
-   - produits a recevoir ou charges a payer deja comptabilises
-   - virements nommes clairement (`ASP`, assureur, remboursement,
-     trop-percu, correction, etc.)
-4. **Reclasse seulement si le lien est defendable.** Tu peux reduire un
-   bloquant si au moins un de ces signaux est present :
-   - meme montant ou montant quasi identique
-   - libelle explicite sur la nature du flux
-   - contrepartie deja visible dans la balance
-   - coherence metier evidente
-5. **Laisse le reste en suspens.** Si la contrepartie n est pas assez
-   claire, ne "nettoie" pas le compte pour faire joli. Garde le montant
-   en bloquant ou en point d attention.
-6. **Mets a jour le rapport.** Ajuste les sections utiles dans
-   `reports/v<V>/model.ts` :
-   - `alerts.blocking` et `alerts.blockingTotal`
-   - `alerts.points` pour documenter ce qui a ete reclassé
-   - `pnl.score` et les narratives/syntheses utiles
-   - `analyse.narratives` et `analyse.synthese`
-7. **Reste conservateur sur le score.** Monte le score seulement si le
-   montant non traite baisse reellement et si les reclassements sont
-   justifies par les pieces.
+## Versions d’affichage (V0 / V1)
 
-## Heuristiques de score
+| Mode | `REPORT_471_MODE` dans `model.ts` | Commande de vérité | `alerts.blocking` | `pnl.*` (N) |
+|------|-----------------------------------|--------------------|-------------------|-------------|
+| **V0** | `"v0" as "v0" \| "v1"` | `pnpm reclasse-471 -- --mode v0` | **Toutes** les lignes 471 de l’extrait | Identique **balance export** (pas de healing dans les totaux) |
+| **V1** | `"v1" as "v0" \| "v1"` | `pnpm reclasse-471 -- --mode v1` | **Résidu** seulement (hors lignes haute confiance du script) | **Aligné** sur le JSON healed (lignes marquées « ajusté », détails sous postes) |
 
-- Si les gros suspens restent ouverts, garde `douteux`.
-- Si une partie materialle des suspens est rattachee proprement mais que
-  la TVA ou les OD de cloture restent ouvertes, passe plutot en
-  `acceptable`.
-- Ne passe en `fiable` que si les comptes d attente residuels sont
-  faibles et que les autres irritants majeurs sont traites.
+Le cast `as "v0" \| "v1"` évite que TypeScript réduise le type à un seul littéral quand les deux branches existent dans le fichier.
 
-Mets a jour ces champs ensemble pour rester coherent :
-- `score.global`
-- `score.level`
-- `score.levelLabel`
-- `score.traitement`
-- `score.non_traite`
-- `score.ajustement`
-- `score.montantTraite`
-- `score.montantNonTraite`
+## Grand-livre & suspens (règles communes)
 
-## Cas typiques a reclasser
+- Filtrer **`471*`** sur la colonne **N° de compte**, pas sur une recherche texte globale (un **IBAN peut contenir « 471 »**).
+- **`445800` / `445860`** : TVA en attente ≠ suspens banque ; ne pas les confondre avec les 471 dans `blocking`.
+- Comptes d’attente typiques : **`4716` / `4717`**, autres passages ; produits à recevoir / charges à payer déjà en balance ; virements lisibles (ASP, assureur, remboursement, trop-perçu, erreur, etc.).
 
-- Virement `ASP` clairement nomme : souvent defensible en subvention
-  d exploitation si le contexte colle.
-- Encaissement d assureur ou d organisme qui recoupe un `produit a
-  recevoir` deja au bilan : reclassement souvent defensible.
-- Remboursement collaborateur avec montant miroir d une sortie deja
-  visible : reclassement souvent defensible.
+## Quand retirer une ligne du bloquant
+
+Une ligne peut sortir de `blocking` (V1) si **au moins** un signal solide : même montant (ou quasi), libellé explicite, contrepartie déjà en balance, ou cohérence métier évidente. Sinon : **rester en bloquant** ou **point d’attention** — ne pas « nettoyer » pour l’esthétique.
+
+## Workflow (ordre)
+
+1. **Cibler la version** : lire `src/reports/meta.json`, éditer uniquement `src/reports/v<V>/` (pas une autre version).
+2. **Lire** `model.ts` : `alerts.blocking`, `pnl.*`, `pnl.score`, `analyse.scoring`, `analyse.penalties`, `analyse.synthese`, `analyse.narratives`.
+3. **Lire les pièces** : balance + grand-livre exercice sous `data/` ; détail ligne à ligne des 471 pour `blocking`.
+4. **Mettre à jour le script Python** si l’export GL change : `GL_471`, règles `HIGH_CONFIDENCE`, buckets P&L ; pas de logique parallèle uniquement en TS.
+5. **Exécuter** `pnpm reclasse-471 -- --mode v0` puis `--mode v1` ; vérifier counts, totaux bloquants, `healed_pnl` (JSON).
+6. **Reporter dans `model.ts`** :
+   - régler `REPORT_471_MODE` ;
+   - synchroniser `blocking` / `blockingTotal` avec la sortie du mode choisi ;
+   - en V1 : `pnl.produits`, `pnl.charges`, `pnl.totals` + `variant` / `details` sur les postes touchés ;
+   - ajuster score, pénalités, synthèses pour refléter résidu + traçabilité (simulation hors FEC si applicable).
+7. **Typecheck** : `pnpm typecheck`. **Conservateur sur le score** : ne monter que si le montant non traité baisse réellement et les reclassements sont justifiés.
+
+## Score (`pnl.score` + `analyse.scoring`)
+
+- Gros suspens ouverts → plutôt **`douteux`**.
+- Partie matérielle des suspens rattachée mais TVA / OD clôture encore floues → souvent **`acceptable`**.
+- **`fiable`** seulement si résidu d’attente faible et autres irritants majeurs traités.
+
+Champs à garder cohérents ensemble : `global`, `level`, `levelLabel`, `traitement`, **`nonTraite`**, `ajustement`, `montantTraite`, `montantNonTraite`, `montantAjuste` (noms tels que dans le schéma Zod / `model.ts`).
+
+## Cas typiques (souvent défendables si le contexte colle)
+
+- Virement **ASP** nominal → subvention / aide d’exploitation.
+- Encaissement assureur / organisme recoupant un produit à recevoir déjà au bilan.
+- Remboursement collaborateur en miroir d’une sortie déjà vue.
 
 ## Garde-fous
 
-- Ne modifie pas le P&L si la piece ne permet pas d identifier la vraie
-  nature comptable.
-- Ne supprime pas un bloquant juste parce qu un libelle "semble" bon.
-- Ne compense pas manuellement des comptes TVA ou amortissements pour
-  embellir le score.
-- Explique dans les commentaires du rapport ce qui a ete reclassé et ce
-  qui reste ouvert.
+- **Ne pas modifier le P&L** si la pièce ne permet pas d’identifier la vraie nature comptable.
+- **Ne pas supprimer** un bloquant sur un libellé « qui semble bon » sans imputation haute confiance.
+- **Ne pas compenser** TVA ou amortissements « pour le score ».
+- **V0** : ne pas présenter un tableau rouge allégé ni des totaux P&L healed comme s’ils sortaient de l’ERP.
+- **Traçabilité** : commentaires bloquants **courts et actionnables**. Pour `alerts.points` et footnotes **visibles** : ton **cabinet** (`SOUL.md`), **sans** exposer scripts ou commandes ; **une à deux phrases max** par point quand l’espace UI est limité — voir skill **`numeral`**.
 
-## Sortie attendue
+## Sortie quand tu réponds à l’utilisateur
 
-Quand tu reponds :
-- dis clairement ce qui a ete reclassé
-- chiffre la baisse des bloquants
-- dis pourquoi le score monte ou ne monte pas
-- dis ce qui reste encore a traiter
+- Liste claire des reclassements effectués (ou « aucun »).
+- Effet chiffré sur les bloquants (avant / après, ou nombre de lignes et montant absolu résiduel).
+- Pourquoi le score monte ou stable.
+- Ce qui reste à traiter ou à confirmer.
+
+## Skills voisins
+
+- **`numeral-classify-attente-pnl`** : mécanique fine 471 → listes haute confiance / à confirmer / P&L healed (évite de dupliquer ici).
+- **`numeral-classify-attente-pnl-with-internet`** : libellés encore opaques après GL — recherche ouverte ; si la nature devient raisonnable, reclassement V1 **web-assisted**. Si introuvable, la ligne reste bloquante.
+- **`numeral`** : structure du rapport, `blocking` détail, review schéma.
+- **`numeral-memory-update`** : faits durables dossier dans `MEMORY.md`.

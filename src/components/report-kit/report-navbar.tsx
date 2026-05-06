@@ -26,6 +26,7 @@ export function ReportNavbar({
   const [deletingVersion, setDeletingVersion] = useState<number | null>(null);
 
   const [versionError, setVersionError] = useState<string | null>(null);
+  const [pdfLoading, setPdfLoading] = useState(false);
 
   useEffect(() => {
     if (!createOpen) return;
@@ -165,7 +166,7 @@ export function ReportNavbar({
 
   return (
     <>
-      <nav className="numeral-navbar" aria-label="Versions du rapport">
+      <nav className="numeral-navbar print-hidden" aria-label="Versions du rapport">
         <div className="numeral-navbar-inner">
           <div className="navbar-tabs" role="tablist">
             {sortedVersions.map((tab: VersionTab) => {
@@ -210,19 +211,65 @@ export function ReportNavbar({
               +
             </button>
           </div>
+        <div className="navbar-actions">
+          <button
+            type="button"
+            className="version-print-pdf"
+            disabled={pdfLoading}
+            title="Génère un PDF avec Puppeteer (Chromium)."
+            aria-label="Télécharger le rapport en PDF"
+            onClick={async () => {
+              setVersionError(null);
+              setPdfLoading(true);
+              try {
+                const res = await fetch(`/api/report/pdf?vid=${activeVersion}`, { cache: "no-store" });
+                if (!res.ok) {
+                  const data = (await res.json().catch(() => null)) as { error?: string; detail?: string } | null;
+                  const msg =
+                    data?.detail && data.detail.length ? `${data?.error ?? "Erreur"} — ${data.detail}` : data?.error ?? `HTTP ${res.status}`;
+                  setVersionError(msg);
+                  return;
+                }
+                const blob = await res.blob();
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement("a");
+                a.href = url;
+                a.download = `bande-de-cheffe-v${activeVersion}.pdf`;
+                a.rel = "noopener";
+                document.body.appendChild(a);
+                a.click();
+                a.remove();
+                URL.revokeObjectURL(url);
+              } catch (e) {
+                setVersionError(String(e && e instanceof Error ? e.message : e));
+              } finally {
+                setPdfLoading(false);
+              }
+            }}
+          >
+            <span className="version-print-pdf-icon" aria-hidden="true">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M6 9V2h12v7" />
+                <path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2" />
+                <rect x="6" y="14" width="12" height="8" rx="1" />
+              </svg>
+            </span>
+            <span className="version-print-pdf-label">{pdfLoading ? "PDF…" : "Exporter PDF"}</span>
+          </button>
           <button type="button" className="version-publish" onClick={() => setPublishOpen(true)}>
             Publier
           </button>
         </div>
+        </div>
       </nav>
 
       {versionError && !publishOpen && !createOpen && pendingDeleteVersion === null ? (
-        <div className="navbar-error" role="alert" onClick={() => setVersionError(null)}>
+        <div className="navbar-error print-hidden" role="alert" onClick={() => setVersionError(null)}>
           {versionError}
         </div>
       ) : null}
 
-      <div className="modal-backdrop" role="presentation" style={{ display: publishOpen ? "flex" : "none" }} onClick={() => setPublishOpen(false)}>
+      <div className="modal-backdrop print-hidden" role="presentation" style={{ display: publishOpen ? "flex" : "none" }} onClick={() => setPublishOpen(false)}>
         <div className="modal" role="dialog" aria-modal="true" onClick={(e) => e.stopPropagation()}>
           <div className="modal-header">
             <h2 className="modal-title">Publier la version client</h2>
@@ -248,7 +295,7 @@ export function ReportNavbar({
         </div>
       </div>
 
-      <div className="modal-backdrop" role="presentation" style={{ display: createOpen ? "flex" : "none" }} onClick={cancelCreate}>
+      <div className="modal-backdrop print-hidden" role="presentation" style={{ display: createOpen ? "flex" : "none" }} onClick={cancelCreate}>
         <div className="modal" role="dialog" aria-labelledby="create-version-title" aria-modal="true" onClick={(e) => e.stopPropagation()}>
           <div className="modal-header">
             <h2 id="create-version-title" className="modal-title">
@@ -320,7 +367,7 @@ export function ReportNavbar({
         </div>
       </div>
 
-      <div className="modal-backdrop" role="presentation" style={{ display: pendingDeleteVersion !== null ? "flex" : "none" }} onClick={cancelDelete}>
+      <div className="modal-backdrop print-hidden" role="presentation" style={{ display: pendingDeleteVersion !== null ? "flex" : "none" }} onClick={cancelDelete}>
         <div className="modal" role="dialog" aria-labelledby="confirm-delete-title" aria-modal="true" onClick={(e) => e.stopPropagation()}>
           <div className="modal-row">
             <span className="modal-icon" aria-hidden="true">

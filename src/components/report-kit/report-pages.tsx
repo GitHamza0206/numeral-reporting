@@ -73,77 +73,74 @@ export function SommairePage({ layout }: { layout: SommaireKind[] }) {
   );
 }
 
-export function ScoresPage({ model }: { model: ReportModel }) {
+/** Fiabilité + alertes dans une seule « page » : évite une coupure forcée imprimée / PDF entre les deux blocs. */
+export function ScoresAndAlertsPage({ model }: { model: ReportModel }) {
   const cls = scoreTagClass(
     typeof model.analyse.scoring?.global === "number" ? model.analyse.scoring.global : model.pnl.score.global,
   );
-
-  return (
-    <section className="page" id="section-scores">
-      <div className="page-header">
-        <div>
-          <h1>Fiabilité des données</h1>
-          <p className="subtitle">
-            Score global et détail par bloc — <span>{model.meta.period}</span>
-          </p>
-        </div>
-        <span className={`tag ${cls}`}>{`Score ${model.pnl.score.global}%`}</span>
-      </div>
-      <div className="scores-grid">
-        <div className={`score-card is-primary ${scoreCardLevelClass(model.pnl.score.level)}`}>
-          <div className="score-label">Fiabilité globale</div>
-          <div className="score-value">{model.pnl.score.global}%</div>
-          <div className="score-badge">{model.pnl.score.levelLabel}</div>
-          <div className="score-desc">Confiance dans les chiffres affichés, après revue comptable</div>
-        </div>
-        <div className="score-card">
-          <div className="score-label">Écritures classées</div>
-          <div className="score-value" style={{ color: "var(--text)" }}>
-            {model.pnl.score.traitement}%
-          </div>
-          <div className="score-desc">
-            <span>{model.pnl.score.montantTraite}</span> identifiés et rangés dans le bon compte
-          </div>
-        </div>
-        <div className="score-card">
-          <div className="score-label">Écritures manquantes</div>
-          <div className="score-value" style={{ color: "var(--text)" }}>
-            {model.pnl.score.nonTraite}%
-          </div>
-          <div className="score-desc">
-            <span>{model.pnl.score.montantNonTraite}</span> payés en banque mais absents du P&L
-          </div>
-        </div>
-        <div className="score-card">
-          <div className="score-label">Ajustements estimés</div>
-          <div className="score-value" style={{ color: "var(--text)" }}>
-            {model.pnl.score.ajustement}%
-          </div>
-          <div className="score-desc">
-            <span>{model.pnl.score.montantAjuste}</span> reconstitués par estimation
-          </div>
-        </div>
-      </div>
-      {model.analyse.narratives?.score ? <p className="section-copy">{model.analyse.narratives.score}</p> : null}
-    </section>
-  );
-}
-
-export function AlertsPage({ model }: { model: ReportModel }) {
   const blocking = model.alerts.blocking;
   const points = model.alerts.points;
 
   return (
-    <section className="page" id="section-alerts">
-      <div className="page-header">
-        <div>
-          <h1>Erreurs et points d&apos;attention</h1>
-          <p className="subtitle">
-            Ce qui doit être corrigé avant clôture — <span>{model.meta.period}</span>
-          </p>
+    <section className="page page-scores-alerts" aria-labelledby="heading-scores">
+      <div id="section-scores">
+        <div className="page-header">
+          <div>
+            <h1 id="heading-scores">Fiabilité des données</h1>
+            <p className="subtitle">
+              Score global et détail par bloc — <span>{model.meta.period}</span>
+            </p>
+          </div>
+          <span className={`tag ${cls}`}>{`Score ${model.pnl.score.global}%`}</span>
         </div>
-        <span className="tag tag-danger">{`${blocking.length} erreurs · ${points.length} alertes`}</span>
+        <div className="scores-grid">
+          <div className={`score-card is-primary ${scoreCardLevelClass(model.pnl.score.level)}`}>
+            <div className="score-label">Fiabilité globale</div>
+            <div className="score-value">{model.pnl.score.global}%</div>
+            <div className="score-badge">{model.pnl.score.levelLabel}</div>
+            <div className="score-desc">Confiance dans les chiffres affichés, après revue comptable</div>
+          </div>
+          <div className="score-card">
+            <div className="score-label">Zones maîtrisées</div>
+            <div className="score-value" style={{ color: "var(--text)" }}>
+              {model.pnl.score.traitement}%
+            </div>
+            <div className="score-desc">
+              <span>{model.pnl.score.montantTraite}</span>
+            </div>
+          </div>
+          <div className="score-card">
+            <div className="score-label">Points encore ouverts</div>
+            <div className="score-value" style={{ color: "var(--text)" }}>
+              {model.pnl.score.nonTraite}%
+            </div>
+            <div className="score-desc">
+              <span>{model.pnl.score.montantNonTraite}</span>
+            </div>
+          </div>
+          <div className="score-card">
+            <div className="score-label">Ajustements proposés</div>
+            <div className="score-value" style={{ color: "var(--text)" }}>
+              {model.pnl.score.ajustement}%
+            </div>
+            <div className="score-desc">
+              <span>{model.pnl.score.montantAjuste}</span>
+            </div>
+          </div>
+        </div>
+        {model.analyse.narratives?.score ? <p className="section-copy">{model.analyse.narratives.score}</p> : null}
       </div>
+
+      <div className="page-scores-alerts-second" id="section-alerts" aria-labelledby="heading-alerts">
+        <div className="page-header">
+          <div>
+            <h1 id="heading-alerts">Erreurs et points d&apos;attention</h1>
+            <p className="subtitle">
+              Ce qui doit être corrigé avant clôture — <span>{model.meta.period}</span>
+            </p>
+          </div>
+          <span className="tag tag-danger">{`${blocking.length} erreurs · ${points.length} alertes`}</span>
+        </div>
 
       <h3>
         Erreurs bloquantes
@@ -156,7 +153,7 @@ export function AlertsPage({ model }: { model: ReportModel }) {
           <thead>
             <tr>
               <th>Libellé</th>
-              <th>Compte</th>
+              <th>Poste</th>
               <th>Commentaire</th>
               <th className="num">Montant</th>
             </tr>
@@ -183,7 +180,9 @@ export function AlertsPage({ model }: { model: ReportModel }) {
           </tfoot>
         </table>
       ) : (
-        <p className="section-copy">Aucune écriture en compte d&apos;attente — bon point.</p>
+        <p className="section-copy">
+          Aucune erreur bloquante dans cette restitution. Les comptes de passage ou d&apos;attente bancaire restent détaillés sous « Points d&apos;attention » lorsque pertinent.
+        </p>
       )}
 
       <h3 style={{ marginTop: 32 }}>
@@ -218,6 +217,7 @@ export function AlertsPage({ model }: { model: ReportModel }) {
       ) : (
         <p className="section-copy">Aucune alerte — la balance traverse la revue sans signal.</p>
       )}
+      </div>
     </section>
   );
 }

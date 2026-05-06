@@ -33,7 +33,7 @@ export const SOMMAIRE_LABELS: Record<
   },
   pnl: {
     label: "Compte de résultat",
-    desc: "P&L annuel jusqu'au résultat net après IS, détail par compte",
+    desc: "Compte de résultat annuel jusqu’au résultat net après impôt sur les sociétés, détail par poste",
   },
   sig: {
     label: "Soldes intermédiaires de gestion",

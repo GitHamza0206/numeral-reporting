@@ -1,16 +1,20 @@
 {
-  "name": "numeral-rapport-template",
+  "name": "bande-de-cheffe-reporting",
   "version": "0.0.0",
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "next dev --port 8080",
+    "dev": "next dev --port 5555",
     "build": "next build --webpack",
-    "start": "next start --port 8080",
-    "typecheck": "tsc --noEmit"
+    "start": "next start --port 5555",
+    "typecheck": "tsc --noEmit",
+    "puppeteer:install-chrome": "puppeteer browsers install chrome",
+    "extract-pnl": "python3 scripts/extract_pnl_from_balance.py",
+    "reclasse-471": "python3 scripts/reclasse_471_healing.py"
   },
   "dependencies": {
     "next": "^16.0.0",
+    "puppeteer": "^24.43.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "zod": "^4.0.0"

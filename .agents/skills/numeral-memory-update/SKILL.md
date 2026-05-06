@@ -24,13 +24,15 @@ dossier.
   amortissements, habitudes de classement.
 - Contrainte de presentation ou de lecture voulue par l utilisateur si
   elle doit rester vraie sur les prochains tours.
+- Style des textes rapport : concision des **points d attention** et
+  autres commentaires visibles (voir `SOUL.md` + skill **numeral**).
 
 ## Quand ne pas ecrire dans la memoire
 
 - Version active du moment.
 - Etat temporaire d une demande en cours.
 - Resultat purement cosmetique d une version.
-- Donnee facilement relue dans `reports/meta.json`.
+- Donnee facilement relue dans `src/reports/meta.json`.
 - Brouillon ou hypothese non validee.
 
 ## Workflow
@@ -57,9 +59,14 @@ dossier.
   d exploitation.
 - L utilisateur prefere voir dans les erreurs bloquantes le detail des
   libelles bancaires non classes, avec commentaire.
+- Les commentaires des **points d attention** du rapport doivent rester **courts et percutants** (micro-notes cabinet, impact en une phrase).
 
 ## Obligation
 
 Si tu apprends une information durable pendant un tour Numeral, mets a
 jour la memoire avant de finir le tour, sauf si l information est deja
 presente de facon correcte.
+
+En fin de tour, le skill **learn** impose aussi une passe memoire globale
+(erreurs agent, preferences, confirmation explicite si rien a ecrire) :
+voir `.agents/skills/learn/SKILL.md`.

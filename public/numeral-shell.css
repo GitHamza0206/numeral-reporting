@@ -153,6 +153,49 @@
   cursor: pointer;
   transition: background 120ms ease;
 }
+.navbar-actions {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.version-print-pdf {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  height: 28px;
+  padding: 0 12px 0 10px;
+  border-radius: 999px;
+  border: 1px solid rgba(26, 54, 93, 0.35);
+  background: #fff;
+  color: #1a365d;
+  font: inherit;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  cursor: pointer;
+  transition:
+    background 120ms ease,
+    border-color 120ms ease,
+    color 120ms ease;
+}
+.version-print-pdf:hover {
+  background: rgba(26, 54, 93, 0.06);
+  border-color: #1a365d;
+}
+.version-print-pdf:focus-visible {
+  outline: 2px solid #c9a84c;
+  outline-offset: 2px;
+}
+.version-print-pdf-icon {
+  display: flex;
+  flex-shrink: 0;
+}
+.version-print-pdf-icon svg {
+  display: block;
+}
 .version-publish:hover {
   background: #d4b765;
 }
@@ -194,6 +237,14 @@
   .version-publish {
     padding: 0 10px;
     font-size: 10.5px;
+  }
+  .version-print-pdf {
+    height: 26px;
+    padding: 0 8px 0 7px;
+    font-size: 10px;
+  }
+  .version-print-pdf-label {
+    display: none;
   }
   .version-tab-delete {
     width: 16px;

@@ -38,10 +38,11 @@ export const pnlSchema = z.object({
   produits: z.array(lineSchema),
   charges: z.array(lineSchema),
   totals: z.object({
-    produitsN: money,
-    produitsN1: money.optional(),
-    chargesN: money,
-    chargesN1: money.optional(),
+    /** Null tant que la balance / le FEC n’est pas importé — ne pas substituer par des zéros fictifs. */
+    produitsN: nullableMoney,
+    produitsN1: nullableMoney.optional(),
+    chargesN: nullableMoney,
+    chargesN1: nullableMoney.optional(),
     resultatExploitationN: nullableMoney.optional(),
     resultatExploitationN1: nullableMoney.optional(),
     resultatNetN: nullableMoney.optional(),
