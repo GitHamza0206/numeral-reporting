@@ -1,0 +1,4 @@
+interface:
+  display_name: "Reclassement Numeral"
+  short_description: "Reclasse les suspens et ajuste la fiabilite"
+  default_prompt: "Use $numeral-reclassement-fiabilite to reclasser prudemment les comptes d attente et mettre a jour le score de fiabilite d un rapport Numeral."

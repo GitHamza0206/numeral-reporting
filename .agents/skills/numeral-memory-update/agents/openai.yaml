@@ -1,0 +1,4 @@
+interface:
+  display_name: "Memoire Numeral"
+  short_description: "Met a jour la memoire dossier de facon durable"
+  default_prompt: "Use $numeral-memory-update to mettre a jour MEMORY.md avec les informations durables d un dossier Numeral."

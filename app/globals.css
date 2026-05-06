@@ -1,0 +1,5 @@
+/* App shell: report typography + layout live in /report.css (+ /numeral-shell.css). */
+
+html {
+  scroll-behavior: smooth;
+}
