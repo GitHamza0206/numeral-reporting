@@ -1,4 +1,4 @@
-import { defineReportModel } from "@/schemas/report";
+import { defineReportModel } from "../../schemas/report.ts";
 
 export const model = defineReportModel({
   meta: {

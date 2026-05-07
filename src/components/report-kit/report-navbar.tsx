@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import type { ReportVersionComponentProps } from "@/schemas/report";
+import { ReportHistoryModal } from "./report-history-modal";
 
 type VersionTab = ReportVersionComponentProps["versions"][number];
 
@@ -17,6 +18,7 @@ export function ReportNavbar({
   const nextVersionLabel = maxVersion + 1;
 
   const [publishOpen, setPublishOpen] = useState(false);
+  const [historyOpen, setHistoryOpen] = useState(false);
   const [createOpen, setCreateOpen] = useState(false);
   const [createName, setCreateName] = useState("");
   const [createBaseVersion, setCreateBaseVersion] = useState(activeVersion);
@@ -151,18 +153,19 @@ export function ReportNavbar({
   };
 
   useEffect(() => {
-    const open = publishOpen || createOpen || pendingDeleteVersion !== null;
+    const open = publishOpen || historyOpen || createOpen || pendingDeleteVersion !== null;
     if (!open) return;
     const onKey = (ev: KeyboardEvent) => {
       if (ev.key === "Escape") {
         if (publishOpen) setPublishOpen(false);
+        else if (historyOpen) setHistoryOpen(false);
         else if (createOpen) cancelCreate();
         else if (pendingDeleteVersion !== null) cancelDelete();
       }
     };
     document.addEventListener("keydown", onKey);
     return () => document.removeEventListener("keydown", onKey);
-  }, [publishOpen, createOpen, pendingDeleteVersion]);
+  }, [publishOpen, historyOpen, createOpen, pendingDeleteVersion]);
 
   return (
     <>
@@ -212,6 +215,9 @@ export function ReportNavbar({
             </button>
           </div>
         <div className="navbar-actions">
+          <button type="button" className="version-print-pdf version-history" onClick={() => setHistoryOpen(true)}>
+            <span className="version-print-pdf-label">Historique</span>
+          </button>
           <button
             type="button"
             className="version-print-pdf"
@@ -263,11 +269,18 @@ export function ReportNavbar({
         </div>
       </nav>
 
-      {versionError && !publishOpen && !createOpen && pendingDeleteVersion === null ? (
+      {versionError && !publishOpen && !historyOpen && !createOpen && pendingDeleteVersion === null ? (
         <div className="navbar-error print-hidden" role="alert" onClick={() => setVersionError(null)}>
           {versionError}
         </div>
       ) : null}
+
+      <ReportHistoryModal
+        activeVersion={activeVersion}
+        reportVersions={sortedVersions.map((tab) => tab.n)}
+        open={historyOpen}
+        onClose={() => setHistoryOpen(false)}
+      />
 
       <div className="modal-backdrop print-hidden" role="presentation" style={{ display: publishOpen ? "flex" : "none" }} onClick={() => setPublishOpen(false)}>
         <div className="modal" role="dialog" aria-modal="true" onClick={(e) => e.stopPropagation()}>

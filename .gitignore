@@ -39,6 +39,9 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
+# visual diff CLI default output
+/visual-diff-output/
+
 # local data (directory tracked via .gitkeep only)
 /data/**
 !/data/.gitkeep

@@ -1,0 +1,314 @@
+{
+  "meta": {
+    "title": "Rapport financier — Bande de Cheffe · QA modale historique",
+    "client": "Bande de Cheffe SAS",
+    "period": "Exercices 2024 (clôturé) et 2025 (balance provisoire au 31/12)",
+    "year": 2025,
+    "priorYear": 2024,
+    "source": "PennyLane : balances 2024 (arrêtée), 2025 (provisoire au 31/12) ; comparatif N-1 quand figurant sur l’export.",
+    "generatedAt": "2026-05-06T12:00:00+02:00",
+    "periodDescription": "Exercice 2025 : balance générale en situation provisoire au 31 décembre (export PennyLane). Le comparatif N-1 est repris lorsque la colonne équivalente figure sur l’export.",
+    "currentPeriodLabel": "2025 (provisoire)",
+    "priorPeriodLabel": "2024"
+  },
+  "pnl": {
+    "subtitle": "Compte de résultat par nature — regroupement charges et produits selon les intitulés de balance générale PennyLane.",
+    "footnote": "Totaux avec affectations **provisoires** des mouvements en suspens bancaire (lignes « ajustées »). Valider les pièces et le fichier des écritures avant usage définitif ; résidu encore signalé en anomalies.",
+    "score": {
+      "global": 65,
+      "level": "acceptable",
+      "levelLabel": "Acceptable",
+      "traitement": 88,
+      "nonTraite": 5,
+      "ajustement": 64,
+      "montantTraite": "Suspens banque ; le détail des propositions figure sous les postes « ajustés ».",
+      "montantNonTraite": "4 mouvements suspens banque encore ouverts (~ 4 851,05 € en valeur absolue) ; suivre aussi le compte courant d’associés.",
+      "montantAjuste": "Propositions intégrées aux montants N ; détail sous les postes concernés."
+    },
+    "produits": [
+      {
+        "label": "Ventes de marchandises",
+        "n": 232456.58,
+        "n1": 233163.58
+      },
+      {
+        "label": "Prestations de services",
+        "n": 255045.42,
+        "n1": 158783.35
+      },
+      {
+        "label": "Ventes de produits finis",
+        "n": 833.5,
+        "n1": 136923.91
+      },
+      {
+        "label": "Autres produits d'exploitation",
+        "n": 30940.26,
+        "n1": 4566.9,
+        "variant": "adjusted",
+        "details": [
+          {
+            "label": "Solde balance hors reclassement des suspens (cette ligne)",
+            "n": 23.49,
+            "variant": "normal"
+          },
+          {
+            "label": "Suspens banque → produits / subventions (prop.)",
+            "account": "À valider sur FEC",
+            "n": 30916.77,
+            "variant": "adjusted"
+          }
+        ]
+      }
+    ],
+    "charges": [
+      {
+        "label": "Achats et variation de stocks",
+        "n": 165978.74,
+        "n1": 125743.75,
+        "variant": "adjusted",
+        "details": [
+          {
+            "label": "Solde balance",
+            "n": 165847.21,
+            "variant": "normal"
+          },
+          {
+            "label": "Crédit remboursement « Amazon » — réduction des achats",
+            "n": -1.77,
+            "variant": "adjusted"
+          },
+          {
+            "label": "Proposition : suspens banque → achats et remboursements d’achats (détail BQ2)",
+            "n": 133.3,
+            "variant": "adjusted"
+          }
+        ]
+      },
+      {
+        "label": "Services extérieurs",
+        "n": 135720.48,
+        "n1": 133303.56,
+        "variant": "adjusted",
+        "details": [
+          {
+            "label": "Solde balance",
+            "n": 134936.5,
+            "variant": "normal"
+          },
+          {
+            "label": "Proposition : suspens banque → achats, déplacements, abonnements, frais financiers externes",
+            "n": 350.39,
+            "variant": "adjusted"
+          },
+          {
+            "label": "Proposition : suspens banque → services divers, frais carte et forfaits bancaires",
+            "n": 433.59,
+            "variant": "adjusted"
+          }
+        ]
+      },
+      {
+        "label": "Impôts et taxes sur rémunérations",
+        "n": 3750.77,
+        "n1": 1198.82,
+        "variant": "adjusted",
+        "details": [
+          {
+            "label": "Solde balance",
+            "n": 3715.77,
+            "variant": "normal"
+          },
+          {
+            "label": "Proposition : suspens banque → cotisations et taxes assimilées",
+            "n": 35,
+            "variant": "adjusted"
+          }
+        ]
+      },
+      {
+        "label": "Charges de personnel",
+        "n": 222150.9,
+        "n1": 216658.25,
+        "variant": "adjusted",
+        "details": [
+          {
+            "label": "Solde balance",
+            "n": 219968.33,
+            "variant": "normal"
+          },
+          {
+            "label": "Proposition : suspens banque → charges sociales et organismes",
+            "n": 2182.57,
+            "variant": "adjusted"
+          }
+        ]
+      },
+      {
+        "label": "Autres charges de gestion courante",
+        "n": 12084.75,
+        "n1": 463.92
+      },
+      {
+        "label": "Charges financières",
+        "n": 0,
+        "n1": 47.08
+      },
+      {
+        "label": "Charges exceptionnelles",
+        "n": 0,
+        "n1": 1095
+      },
+      {
+        "label": "Dotations aux amortissements",
+        "n": 0,
+        "n1": 2193.42
+      },
+      {
+        "label": "Impôt sur les bénéfices",
+        "n": 0,
+        "n1": 5707.24
+      }
+    ],
+    "totals": {
+      "produitsN": 519275.76,
+      "produitsN1": 533437.74,
+      "chargesN": 539685.64,
+      "chargesN1": 486411.04,
+      "resultatExploitationN": -20409.88,
+      "resultatExploitationN1": 56069.44,
+      "resultatNetN": -20409.88,
+      "resultatNetN1": 47026.7
+    }
+  },
+  "alerts": {
+    "blocking": [
+      {
+        "label": "2025-02-03 · BQ1 · VIREMENT SEPA PAR INTERNET VERS 28233 00001 29471131563 56",
+        "severity": "erreur",
+        "account": "Suspens banque — débit BQ1",
+        "amount": 451.57,
+        "comment": "SEPA sans bénéficiaire identifié — ordre ou relevé."
+      },
+      {
+        "label": "2025-02-10 · BQ1 · VIREMENT SEPA PAR INTERNET VERS 42559 10000 08009592821 03",
+        "severity": "erreur",
+        "account": "Suspens banque — débit BQ1",
+        "amount": 1600.64,
+        "comment": "SEPA — rapprocher avec le virement du 12/03 (même RIB)."
+      },
+      {
+        "label": "2025-03-12 · BQ1 · VIREMENT SEPA PAR INTERNET VERS 42559 10000 08009592821 03",
+        "severity": "erreur",
+        "account": "Suspens banque — débit BQ1",
+        "amount": 1752.74,
+        "comment": "SEPA — lot avec le virement du 10/02 (même bénéficiaire)."
+      },
+      {
+        "label": "2025-07-28 · BQ1 · VIREMENT SEPA PAR INTERNET - REMBOURSEMENT SUITE REGLEMENT DOUBLE FACTURE",
+        "severity": "erreur",
+        "account": "Suspens banque — débit BQ1",
+        "amount": 1046.1,
+        "comment": "Double règlement — contre-passation avec la facture doublon."
+      }
+    ],
+    "blockingTotal": 4851.05,
+    "points": [
+      {
+        "label": "Balance 2025 provisoire",
+        "severity": "alerte",
+        "comment": "Balance 2025 provisoire — chiffres mobiles jusqu’à arrêté. À actualiser après clôture ; contrôle cut-off 31/12."
+      },
+      {
+        "label": "Suspens banque — proposition vs lignes encore bloquantes",
+        "severity": "info",
+        "account": "Suspens banque — périmètre complet",
+        "amount": 34284.07,
+        "comment": "33 mouvements retraités hors liste bloquante ; 4 suspens restants. Totaux indicatifs jusqu’à validation des écritures et du fichier légal."
+      },
+      {
+        "label": "Suspens banque — vue d’ensemble propositions et résidu",
+        "severity": "info",
+        "comment": "33 hors liste (~ 34 284,07 € abs.) ; résidu 4 (~ 4 851,05 € abs.). Sans validation : revenir à une lecture prudente sur 37 lignes."
+      },
+      {
+        "label": "Suspens banque — libellés à identifier",
+        "severity": "info",
+        "comment": "Sans facture : proposition non opposable — rester en suspens tant que la piste manque."
+      },
+      {
+        "label": "Suspens banque — résidu",
+        "severity": "alerte",
+        "account": "Suspens banque — débit et crédit",
+        "comment": "4 suspens (~ 4 851,05 € abs. cum.) ; les 33 autres propositions font passer le RN de ~ -48 193,57 € à ~ -20 409,88 € (indicatif)."
+      },
+      {
+        "label": "Compte courant d’associés",
+        "severity": "info",
+        "account": "Compte courant d’associés",
+        "amount": -1177.22,
+        "comment": "Compte courant créditeur : −1 177 € sur 2025 contre −1 424 € sur l’exercice précédent. Vérifier les conventions entre associés avant toute mise en distribution."
+      }
+    ]
+  },
+  "analyse": {
+    "scoring": {
+      "global": 65
+    },
+    "penalties": [
+      {
+        "label": "Exercice 2025 provisoire",
+        "weight": 15,
+        "reason": "Clôture non finalisée — balance provisoire PennyLane."
+      },
+      {
+        "label": "Comptes d’attente bancaires",
+        "weight": 6,
+        "reason": "4 mouvements suspens banque résiduels après propositions — poursuivre les rapprochements."
+      },
+      {
+        "label": "Dépendance au regroupement charges / produits",
+        "weight": 8,
+        "reason": "Indicateurs intermédiaires non rejoués ici — seuls les agrégats de résultat issus de la balance."
+      }
+    ],
+    "fiscalite": [
+      {
+        "label": "IS exercice",
+        "status": "Vu sur balance — ligne IS",
+        "comment": "2024 : impôt sur les sociétés 6 707,24 €. Exercice 2025 provisoire : aucune charge d’impôt correspondante sur cet extrait — à confirmer après liasse officielle."
+      },
+      {
+        "label": "TVA",
+        "status": "À contrôler sur fichier des écritures et liasse",
+        "comment": "Plusieurs sous-comptes TVA en balance ; contrôle à mener sur le fichier des écritures et la liasse officielle, pas à partir de ce tableau seul."
+      }
+    ],
+    "narratives": {
+      "score": "Couverture améliorée après proposition d’affectation des suspens banque ; reste du suspens résiduel et balance provisoire avant arrêt définitif.",
+      "pnl": "Résultat net indicatif d’environ -20,4 k€ après propositions sur les suspens banque (contre environ −48 k€ en lecture balance brute avant ces reclassements). L’écart porte pour l’essentiel sur des produits encore en attente ; la structure des charges récurrentes hors ce périmètre reste comparable.",
+      "monthly": "Pas de ventilation mensuelle ici — à extraire du grand livre si besoin.",
+      "structure": "Bilan fonctionnel non développé ici ; les soldes de suspens et de banque peuvent être prolongés à partir du même dossier.",
+      "sig": "Indicateurs détaillés de gestion absents du présent PDF — ils peuvent être dérivés du plan comptable si les organes l’exigent."
+    },
+    "synthese": [
+      {
+        "label": "Suspens banque — lecture du tableau des anomalies",
+        "comment": "4 anomalies (~ 4 851,05 € en valeur absolue cumulée) malgré 33 sorties traitées ; l’extrait initial comptait 37 lignes (39 135,12 € cumulés en valeur absolue). Présentation « tout suspens » possible en annexe sur demande."
+      },
+      {
+        "label": "Vigilance clôture",
+        "comment": "Finaliser au 31/12/2025 ; avoir soldé les suspens bancaires avant toute mise en distribution de résultats ou régularisation sensible de rémunération."
+      },
+      {
+        "label": "Analyse métier fine",
+        "comment": "Pour comparer précisément l’activité événements et les autres lignes du chiffre d’affaires : repartir du grand livre ou du fichier des écritures — invisible dans ce regroupement de synthèse."
+      }
+    ],
+    "footerExtra": [
+      "PennyLane : balances 2024 (arrêtée), 2025 (provisoire au 31/12) ; comparatif N-1 quand figurant sur l’export.",
+      "Les totaux recoupent les intitulés de ligne figurant ci-dessus, sur le périmètre des balances PennyLane sources.",
+      "Les propositions d’affectation des suspens bancaires ne sont opposables ni au cabinet ni en contrôle externe tant qu’elles ne sont pas inscrites au journal après validation."
+    ]
+  }
+}

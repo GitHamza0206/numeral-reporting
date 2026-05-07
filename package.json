@@ -4,16 +4,23 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "next dev --port 5555",
+    "dev": "concurrently -n history,next -c cyan,green \"node --experimental-strip-types scripts/report-history-watch.mjs\" \"next dev --port 5555\"",
+    "dev:next": "next dev --port 5555",
     "build": "next build --webpack",
     "start": "next start --port 5555",
     "typecheck": "tsc --noEmit",
+    "test:history": "node --test --experimental-strip-types src/lib/report-history.test.ts src/lib/report-model-diff.test.ts",
+    "report:snapshot": "node --experimental-strip-types scripts/report-snapshot.mjs",
+    "visual:diff": "node --experimental-strip-types scripts/visual-diff.mjs",
     "puppeteer:install-chrome": "puppeteer browsers install chrome",
     "extract-pnl": "python3 scripts/extract_pnl_from_balance.py",
     "reclasse-471": "python3 scripts/reclasse_471_healing.py"
   },
   "dependencies": {
     "next": "^16.0.0",
+    "pixelmatch": "^7.2.0",
+    "playwright": "^1.59.1",
+    "pngjs": "^7.0.0",
     "puppeteer": "^24.43.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
@@ -21,8 +28,11 @@
   },
   "devDependencies": {
     "@types/node": "^24.0.0",
+    "@types/pixelmatch": "^5.2.6",
+    "@types/pngjs": "^6.0.5",
     "@types/react": "^19.0.0",
     "@types/react-dom": "^19.0.0",
+    "concurrently": "^9.2.1",
     "typescript": "^5.0.0"
   }
 }

@@ -1,6 +1,6 @@
 import type { ReactNode } from "react";
 import type { ReportModel, ReportVersionComponentProps } from "@/schemas/report";
-import { ReportNavbar } from "./report-navbar";
+import { ReportLayoutClient } from "./report-layout-client";
 
 export { ReportNavbar } from "./report-navbar";
 export * from "./report-pages";
@@ -11,9 +11,8 @@ export function Report({
   children,
 }: ReportVersionComponentProps & { model: ReportModel; children: ReactNode }) {
   return (
-    <>
-      <ReportNavbar activeVersion={activeVersion} versions={versions} />
+    <ReportLayoutClient activeVersion={activeVersion} versions={versions}>
       {children}
-    </>
+    </ReportLayoutClient>
   );
 }
