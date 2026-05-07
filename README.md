@@ -1,30 +1,36 @@
-# Bande de Cheffe — rapport financier (Numeral)
+# Numeral — template rapport financier (`numeral-financial-report`)
 
-Application Next.js minimale pour éditer et versionner le rapport financier **Bande de Cheffe SAS**, avec le même schéma typé que les autres dossiers Numeral.
+Application Next.js minimale pour **éditer et versionner** un rapport financier typé (schéma Zod commun aux dossiers Numeral). Le dossier `reports/template/` est un **gabarit vide** (sans montants préremplis) ; `reports/v0/` conserve une **démo chiffrée factice** ; chaque dossier client duplique une version ou en crée une nouvelle depuis l’UI.
 
-## Contenu (`src/` = code applicatif)
+**Référence conservée —** ancien dossier client (snapshots Bande de Cheffe, `v1`/`v2`, `.history`, script Python reclasse avec données réelles…) : voir [**`_archive/`**](_archive/README.md) (export figé au commit Git `c07a81f`).
+
+## Arborescence utile (`src/`)
 
 ```txt
 src/
-  app/              # routes Next.js (App Router)
-  components/       # UI partagée (report-kit)
-  lib/              # versionnement rapport (meta.json, registry)
+  app/              # App Router + API versions + export PDF
+  components/       # report-kit (UI partagée)
+  lib/              # versionnement (meta.json, registry), PDF, etc.
   schemas/          # Zod ReportModel
   reports/
-    template/       # gabarit exemples chiffrés
-    v0/             # modèle dossier Bande de Cheffe
+    template/       # gabarit sans montants préremplis (structure + champs vides)
+    v0/             # version de démo / point de départ du clone
 ```
 
-- Les faits et montants : `src/reports/v<V>/model.ts` (validé par Zod).
-- L’ordre des sections : `src/reports/v<V>/report.tsx`.
-- La mémoire durable du dossier : `MEMORY.md` (racine).
-- Les exports comptables : `data/` (voir `data/README.md`).
-- Paramètres figés optionnels : `client_context.json` à la racine (exemple : `client_context.example.json`).
-- Scripts hors app : `scripts/` (ex. extraction P&amp;L).
+- Faits et montants : [`src/reports/v<V>/model.ts`](src/reports/v0/model.ts) (validé Zod).
+- Ordre des sections : [`src/reports/v<V>/report.tsx`](src/reports/v0/report.tsx).
+- Mémo dossier optionnelle : [`MEMORY.md`](MEMORY.md) (ne pas committer de secrets clients).
+- Exports comptables : [`data/`](data/) via [`data/README.md`](data/README.md) (gitignore par défaut).
+- Contexte textuel dossier : `client_context.json` (voir [`client_context.example.json`](client_context.example.json)).
+- Scripts optionnels hors runtime : [`scripts/`](scripts/README.md).
+
+### Personnaliser le slug d’export PDF
+
+Variable d’environnement : `NEXT_PUBLIC_REPORT_EXPORT_BASENAME` (voir [`src/lib/report-export-name.ts`](src/lib/report-export-name.ts)). Par défaut : `numeral-financial-report`.
 
 ## Prérequis données
 
-Sans balance, grand livre ou **FEC** dans `data/`, le rapport peut rester **non chiffré** (`null`). Ne pas substituer des zéros fictifs sans pièces.
+Sans balance, grand livre ou FEC dans `data/`, le rapport peut rester **sans chiffres réels** dans `model.ts`. Ne pas inventer de montants.
 
 ## Développement
 
@@ -33,7 +39,7 @@ npm install
 npm run dev
 ```
 
-L’app écoute le port **5555** (voir `package.json`). La racine `/` redirige vers la version active (`/v0`, `/v1`, …).
+Port **5555** (`package.json`). La racine `/` redirige vers la version « tip » (`/v0`, …).
 
 ## Vérification
 
@@ -44,4 +50,4 @@ npm run build
 
 ## Versionnement
 
-Les routes `src/app/api/versions/*` maintiennent `src/reports/meta.json` et `src/reports/registry.ts`. Le bouton « + » dans la barre du rapport crée une nouvelle version en copiant la source choisie.
+Les routes `src/app/api/versions/*` maintiennent [`src/reports/meta.json`](src/reports/meta.json) et régénèrent [`src/reports/registry.ts`](src/reports/registry.ts). Le bouton « + » du rapport copie une version source vers une nouvelle `v<N>`.

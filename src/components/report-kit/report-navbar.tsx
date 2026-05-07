@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useMemo, useState } from "react";
+import { reportPdfFilename } from "@/lib/report-export-name";
 import type { ReportVersionComponentProps } from "@/schemas/report";
 import { ReportHistoryModal } from "./report-history-modal";
 
@@ -240,7 +241,7 @@ export function ReportNavbar({
                 const url = URL.createObjectURL(blob);
                 const a = document.createElement("a");
                 a.href = url;
-                a.download = `bande-de-cheffe-v${activeVersion}.pdf`;
+                a.download = reportPdfFilename(activeVersion);
                 a.rel = "noopener";
                 document.body.appendChild(a);
                 a.click();

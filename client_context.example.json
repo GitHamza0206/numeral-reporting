@@ -1,7 +1,7 @@
 {
-  "legal_name": "Bande de Cheffe SAS",
+  "legal_name": "Client exemple SAS",
   "siret": null,
-  "activity": "À renseigner depuis le Kbis / questionnaire (ex. restauration, traiteur, autre).",
+  "activity": "À renseigner depuis le Kbis / questionnaire client.",
   "fiscal_year_end": null,
   "exercise_labels": {
     "n": "Exercice N (ex. 2025)",

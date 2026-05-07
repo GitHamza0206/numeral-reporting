@@ -1,5 +1,6 @@
 import type { NextRequest } from "next/server";
 import { urlToPdfBuffer } from "@/lib/html-to-pdf";
+import { reportPdfFilename } from "@/lib/report-export-name";
 import { parseVid, readMeta } from "@/lib/reports";
 import { reportRegistry } from "@/reports/registry";
 
@@ -61,7 +62,7 @@ export async function GET(request: NextRequest) {
     );
   }
 
-  const filename = `bande-de-cheffe-v${version}.pdf`;
+  const filename = reportPdfFilename(version);
   return new Response(new Uint8Array(buffer), {
     status: 200,
     headers: {

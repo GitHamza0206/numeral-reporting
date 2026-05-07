@@ -19,6 +19,9 @@ export const DEFAULT_REPORT_LAYOUT: SommaireKind[] = [
   "analyse",
 ];
 
+/** Sommaire pour le dossier `reports/template/` : sections sans données dans le modèle source. */
+export const TEMPLATE_REPORT_LAYOUT: SommaireKind[] = ["scores", "alerts", "pnl", "analyse"];
+
 export const SOMMAIRE_LABELS: Record<
   SommaireKind,
   { label: string; desc: string }

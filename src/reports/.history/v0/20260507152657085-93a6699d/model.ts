@@ -94,7 +94,7 @@ export const model = defineReportModel({
   },
   monthly: {
     headers: ["Jan", "Fév", "Mar", "Avr", "Mai", "Juin"],
-    produits: { cells: [19908, 54777, 41030, 60938, 34633, 91027], total: 302313 },
+    produits: { cells: [19908, 54704, 41030, 60938, 34633, 91027], total: 302313 },
     charges: [
       { label: "Achats", cells: [33320, 15601, 7922, 25339, 13521, 11194], total: 106897 },
       { label: "Personnel", cells: [20083, 20159, 25648, 29686, 22033, 21644], total: 139253 },

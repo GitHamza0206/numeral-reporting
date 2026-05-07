@@ -13,7 +13,12 @@ import {
 import { PnlSection } from "@/components/report-kit/pnl-section";
 import type { ReportModel } from "@/schemas/report";
 
-export { DEFAULT_REPORT_LAYOUT, type SommaireKind, sommaireItems } from "./constants";
+export {
+  DEFAULT_REPORT_LAYOUT,
+  TEMPLATE_REPORT_LAYOUT,
+  type SommaireKind,
+  sommaireItems,
+} from "./constants";
 
 function readSigN(sig: NonNullable<ReportModel["sig"]>, key: string): number | null | undefined {
   const v = sig[key as keyof typeof sig];

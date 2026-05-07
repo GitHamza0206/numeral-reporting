@@ -1,4 +1,4 @@
-# AGENTS.md — Conduite avec l’utilisateur (Bande de Cheffe)
+# AGENTS.md — Conduite avec l’utilisateur (rapport financier Numeral)
 
 Ce dépôt prépare des **restitutions comptables**. L’utilisateur se place du côté **cabinet** : comptable, expert-comptable, finance ou dirigeant qui lit comme un dossier, pas comme une revue de code.
 

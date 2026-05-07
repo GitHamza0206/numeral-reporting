@@ -3,14 +3,14 @@ name: learn
 description: >-
   Clôture obligatoire en fin de tâche sur ce dépôt : passe « learn » sur MEMORY.md
   (erreurs agent, préférences, faits durables). Use at the end of every completed
-  user request in bande-de-cheffe, and when the user reports a mistake, asks to
+  user request in this repository, and when the user reports a mistake, asks to
   remember something, or says « retiens / apprends ».
 disable-model-invocation: false
 ---
 
 # Learn — clôture mémoire (toujours en fin d’action)
 
-Objectif : **avant d’envoyer la réponse finale** sur une demande utilisateur dans `bande-de-cheffe`, exécuter la passe **Learn** ci-dessous. Les leçons utiles vont dans `MEMORY.md` (lisible, versionnable). Complète **numeral-memory-update** pour les faits métier ; ce skill couvre en plus **erreurs agent**, **préférences stables**, et **rappels procédure** (scripts, synchro `model.ts`).
+Objectif : **avant d’envoyer la réponse finale** sur une demande utilisateur dans ce dépôt (`numeral-financial-report`), exécuter la passe **Learn** ci-dessous. Les leçons utiles vont dans `MEMORY.md` (lisible, versionnable). Complète **numeral-memory-update** pour les faits métier ; ce skill couvre en plus **erreurs agent**, **préférences stables**, et **rappels procédure** (scripts, synchro `model.ts`).
 
 Ce skill est **distinct** du `/learn` gstack (JSONL sous `~/.gstack/`).
 
@@ -52,12 +52,12 @@ Une **action** = une demande utilisateur traitée jusqu’à réponse (code modi
 
 Si plusieurs points dans le même tour : une sous-section par point ou une entrée unique avec plusieurs puces **Correction**.
 
-**Préférences produit fréquentes (bande de cheffe)** — à refléter sous **Learnings agent** ou section dédiée sans doublon : textes visibles **SOUL** (comptable), **points d’attention** **brefs** (voir skill **numeral**).
+**Préférences produit fréquentes** — à refléter sous **Learnings agent** ou section dédiée sans doublon : textes visibles **SOUL** (comptable), **points d’attention** **brefs** (voir skill **numeral**).
 
 ## Ce qui doit souvent être rappelé après une action technique
 
 - Chiffres dans `model.ts` : traçabilité balance / FEC / script (voir règles immuables dans `MEMORY.md`).
-- Pipeline 471 : `scripts/reclasse_471_healing.py`, synchro avec `pnpm exec tsc --noEmit` si TS touché.
+- Pipeline 471 : `npm run reclasse-471`, synchro avec `npm run typecheck` si TS touché.
 
 ## Anti-patterns
 

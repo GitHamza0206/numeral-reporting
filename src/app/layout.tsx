@@ -3,8 +3,8 @@ import type { ReactNode } from "react";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Bande de Cheffe — rapport financier",
-  description: "Rapport financier typé Numeral — restauration et traiteur",
+  title: "Rapport financier — Numeral",
+  description: "Éditeur de rapport financier typé (template Numeral)",
 };
 
 export default function RootLayout({ children }: { children: ReactNode }) {

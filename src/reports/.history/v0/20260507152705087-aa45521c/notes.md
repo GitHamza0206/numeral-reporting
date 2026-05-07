@@ -9,4 +9,4 @@ Version initiale du **rapport financier de démo** dans ce dépôt : point de d�
 - `model.ts` : métadonnées, P&L, alertes, SIG, mensuel, structure, textes d’analyse.
 - `report.tsx` : ordre des sections (couverture, sommaire, pages report-kit).
 
-**Gabarit vide :** `src/reports/template/` sert à cloner un dossier **sans** montants préremplis (contrairement à cette v0 de démo avec données factices).
+**Référence parallèle :** le dossier `src/reports/template/` reprend le même jeu de données exemple pour les clones qui partent du gabarit « template » plutôt que de `v0`.

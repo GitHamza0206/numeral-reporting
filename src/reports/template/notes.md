@@ -1,8 +1,10 @@
-# Report Template
+# Gabarit (`template/`)
 
-Agent editing surface:
+Le `model.ts` **ne contient aucun montant ni alerte préremplis** : uniquement des libellés d’état (À renseigner, totaux `null`, tableaux vides). Les chiffres viennent des extraites du dossier.
 
-- Edit `model.ts` for facts, numbers, alerts, and narrative strings.
-- Edit `report.tsx` for section order and presentation composition.
-- Use only stable components from `components/report-kit/report.tsx` unless the user asks for a new component.
-- Do not recreate `data.json`, `config.json`, or HTML renderers.
+Surfaces d’édition :
+
+- `model.ts` : faits, montants, alertes, textes — tout à compléter depuis la comptabilité.
+- `report.tsx` : ordre des sections (ici sommaire réduit aux pages réellement rendues sans données SIG / mensuel / structure).
+
+Composants : `components/report-kit/report.tsx` (ne pas recréer de moteur HTML ou JSON parallèle).
